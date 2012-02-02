@@ -1,0 +1,49 @@
+#summary POJO生成工具
+
+= Introduction =
+
+POJO生成工具
+
+
+= Details =
+
+生成工具类代码如下：
+{{{
+public class Generator {
+	//TODO edit below value
+	/** 数据库driver */
+	private String driver = "com.mysql.jdbc.Driver";//"oracle.jdbc.driver.OracleDriver";
+	/**连接字串 */
+	private String url = "jdbc:mysql://127.0.0.1/simdb";//"jdbc:oracle:thin:@127.0.0.1:1521:orcl";
+	/** 数据库用户名 */
+	private String username = "root";//"cctv";//"root";
+	/** 数据库密码 */
+	private String password = "root";//"1";//"root";
+	/** 生成的POJO类包名 */
+	private String packageName = "test";
+    /** 生成表对应的POJO类名需要去除的表名前缀，如 “T_”, “DVN_”等 */
+	private String prefix = "UUM_";
+	/** 生成类的目标地，默认为当前路径的 /src下，即 "./src" */
+	private String destination = "./src";
+	
+	/**
+	 * 生成指定表对应的 pojo类
+	 * @param tableName 表名
+	 * @param idgenerator 主键生成方式 {@link KeyGenertator}
+	 */
+	public void pojoGen (String tableName, String idgenerator) {
+		PojoGenerator generator = new PojoGenerator(driver, url, username, password, packageName, destination);
+		if(prefix != null){
+			generator.setPrefix(prefix);
+		}
+		generator.createDatabaseEntities(tableName, idgenerator);
+	}
+	
+	public static void main(String[] args) {
+		Generator generator = new Generator();
+		generator.pojoGen("UUM_USER", KeyGenertator.INCREMENT);//TODO edit this
+	}
+}
+}}}
+标记为TODO的地方按照实际情况修改，运行代码，刷新下source目录，就能找到生成好的POJO类。
+此工具类可从 Downloads 页签找到下载。
